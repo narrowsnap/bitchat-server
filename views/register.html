@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>register</title>
+</head>
+<script src="jquery-3.2.1.min.js"></script>
+<script src="socket.io.js"></script>
+<body>
+<form>
+    <!--username: <input id="username" type="text">
+    password: <input id="password" type="text">-->
+    <input type="text" id="text">
+    <button id="bu">提交</button>
+    <button id="dis">dis</button>
+</form>
+<script>
+    $(document).ready(function () {
+        /*$('#submit').click(function () {
+         let username = $('#username').val();
+         let password = $('#password').val();
+
+         $.ajax({
+         method: 'POST',
+         url: 'http://localhost:3000/users/login',
+         data: {
+         username: username,
+         password: password
+         },
+         success: function (data) {
+         alert('suc: ' + JSON.stringify(data));
+         },
+         error: function (data) {
+         alert('err: ' + JSON.stringify(data));
+         }
+         })
+         })*/
+        let socket = io('http://localhost:3000');
+        socket.emit('start', '1');
+        socket.on('get', function (msg) {
+            console.log('get : ' + msg);
+        })
+        $('#bu').click(function () {
+            socket.emit('send', '2');
+        })
+        $('#dis').click(function () {
+            socket.disconnect();
+        })
+    })
+</script>
+</body>
+</html>
