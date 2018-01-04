@@ -94,7 +94,7 @@ exports.search = async (ctx) => {
             } else {
                 ctx.response.body = {status: 200, message: '找到用户', user: {
                     username: user.username,
-                    img: user.img
+                    avatar: user.avatar
                 }};
             }
         } catch (err) {
@@ -147,8 +147,6 @@ exports.getContacts = async (ctx) => {
 // 获取联系人
 exports.updateUser = async (ctx) => {
    const user_id = ctx.request.body.user_id;
-   console.log('id: &&&&&&&&&')
-   console.log(ctx.request.body);
    const user = await User.findById(user_id, {username: 1, avatar: 1, contacts:1});
    ctx.response.body = user;
 };

@@ -14,10 +14,13 @@ module.exports = async (io) => {
 
         // 发送验证申请
         socket.on('send verify', (receiver) => {
+            console.log('send verify to: ', receiver);
             socket.broadcast.emit('receive verify', receiver);
         });
 
         socket.on('send message', (message) => {
+            console.log('send message: ');
+            console.log(message);
             socket.broadcast.emit('receive message', message);
 /*            let message = new Message(msg);
 
@@ -26,5 +29,11 @@ module.exports = async (io) => {
             };
             save(message);*/
         });
+
+        socket.on('notice sender', (sender) => {
+            console.log('notice sender: ', sender);
+            socket.broadcast.emit('receive notice', sender);
+        });
+
     });
 };

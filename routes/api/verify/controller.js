@@ -45,25 +45,24 @@ exports.agreeVerify = async (ctx) => {
             status: 1
         }
     );
-    console.log('verify: &&&&&&&&&&&');
-    console.log(verify);
     const sender = await User.findOne({username: verify.sender});
     // 更新receiver联系人消息
-    const receiver = await User.update(
+    await User.update(
         {
             username: verify.receiver
         },
         {
             $push: {
                 contacts: {
-                    id: sender._id,
-                    nickname: verify.sender,
+                    _id: sender._id,
+                    username: verify.sender,
                     avatar: verify.sender_avatar,
                     pinyin: verify.sender_pinyin
                 }
             }
         }
     );
+    const receiver = await User.findOne({username: verify.receiver});
 
     // 更新 sender 联系人消息
     await User.findByIdAndUpdate(
@@ -71,8 +70,8 @@ exports.agreeVerify = async (ctx) => {
         {
             $push: {
                 contacts: {
-                    id: receiver._id,
-                    nickname: verify.receiver,
+                    _id: receiver._id,
+                    username: verify.receiver,
                     avatar: receiver.avatar,
                     pinyin: verify.receiver_pinyin
                 }
