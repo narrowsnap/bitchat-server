@@ -21,7 +21,6 @@ let UserSchema = new Schema({
     },
     avatar: {
         type: String,
-        default: random.randomAvatar()
     },
     contacts: [
         {

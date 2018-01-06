@@ -9,7 +9,7 @@ const User = mongoose.model('User');
 
 require('../../../models/verify.model');
 const Verify = mongoose.model('Verify');
-
+const random = require('../../../utils/random');
 
 // 用户注册
 exports.register = async (ctx) => {
@@ -23,13 +23,13 @@ exports.register = async (ctx) => {
             const user = await User.findOne({username: username});
             console.log(user);
             if(!user) {
-                let img = 'assets/contactImg/00' + Math.ceil(Math.random()*5) + '.jpg';
+                let avatar = random.randomAvatar();
                 const newUser = new User({
                     username: ctx.request.body.username,
                     password: ctx.request.body.password,
-                    img: img
+                    avatar: avatar
                 });
-                const user = newUser.save();
+                await newUser.save();
                 /*ctx.status = 200;
                  ctx.body = '注册成功';*/
                 ctx.response.body = {status: 200, message: '注册成功'};
