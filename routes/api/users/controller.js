@@ -27,6 +27,7 @@ exports.register = async (ctx) => {
                 const newUser = new User({
                     username: ctx.request.body.username,
                     password: ctx.request.body.password,
+                    pinyin: ctx.request.body.pinyin,
                     avatar: avatar
                 });
                 await newUser.save();
@@ -66,6 +67,7 @@ exports.login = async (ctx) => {
                         username: user.username,
                         avatar: user.avatar,
                         contacts: user.contacts,
+                        group_chat: user.group_chat
                     }};
                 } else {
                     ctx.response.body = {status: 404, message: '密码错误'};
@@ -147,6 +149,29 @@ exports.getContacts = async (ctx) => {
 // 获取联系人
 exports.updateUser = async (ctx) => {
    const user_id = ctx.request.body.user_id;
-   const user = await User.findById(user_id, {username: 1, avatar: 1, contacts:1});
+   const user = await User.findById(user_id, {username: 1, avatar: 1, contacts: 1, group_chat: 1});
    ctx.response.body = user;
+};
+
+// 添加群聊
+exports.addGroupChat = async (ctx) => {
+    const group_chat_name = ctx.request.body.group_chat_name;
+    const avatar = ctx.request.body.avatar;
+    const group_members = ctx.request.body.group_members;
+
+    for(let member of group_members) {
+        await User.findByIdAndUpdate(
+            member._id,
+            {
+                $push: {
+                    group_chat: {
+                        name: group_chat_name,
+                        avatar: avatar,
+                        members: group_members
+                    }
+                }
+            }
+        );
+    }
+    ctx.response.body = {status: 200, message: '创建群聊成功'};
 };

@@ -19,6 +19,10 @@ let UserSchema = new Schema({
         type: String,
         required: true
     },
+    pinyin: {
+        type: String,
+        required: true
+    },
     avatar: {
         type: String,
     },
@@ -30,6 +34,20 @@ let UserSchema = new Schema({
             pinyin: String
         }
     ],
+    group_chat: [
+        {
+            name: String,
+            avatar: String,
+            members: [
+                {
+                    _id: String,
+                    username: String,
+                    avatar: String,
+                    pinyin: String
+                }
+            ]
+        }
+    ]
 
 });
 

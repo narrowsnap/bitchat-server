@@ -35,5 +35,10 @@ module.exports = async (io) => {
             socket.broadcast.emit('receive notice', sender);
         });
 
+        socket.on('group chat', (members_name) => {
+            console.log('group chat: ', members_name);
+            socket.broadcast.emit('update info', members_name);
+        });
+
     });
 };

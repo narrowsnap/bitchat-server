@@ -22,6 +22,11 @@ let MessageSchema = new Schema({
         type: String,
         required: true
     },
+    members: [
+        {
+            type: String
+        }
+    ],
     content: {
         type: String,
         required: true

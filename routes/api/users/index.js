@@ -12,5 +12,6 @@ router.post('/showVerifyNumber', controller.showVerifyNumber);
 router.post('/getVerify', controller.getVerify);
 router.post('/getContacts', controller.getContacts);
 router.post('/updateUser', controller.updateUser);
+router.post('/addGroupChat', controller.addGroupChat);
 
 module.exports = router;
