@@ -7,6 +7,7 @@
 const mongoose = require('mongoose');
 require('../../../models/message.model');
 const Message = mongoose.model('Message');
+const chatbot = require('../../../utils/chatbot/chatbot');
 
 module.exports = async (io) => {
     io.sockets.on('connection', function (socket) {
@@ -40,5 +41,15 @@ module.exports = async (io) => {
             socket.broadcast.emit('update info', members_name);
         });
 
+        socket.on('chatbot', (message) => {
+            const out = chatbot.Chat(message.content);
+            const tmp = message.sender;
+            message.sender = message.receiver;
+            message.receiver = tmp;
+            message.content = out;
+            message.sender_avatar = '/images/avatar/chatbot.png'
+            console.log(message)
+            socket.emit('chatbot', message);
+        });
     });
 };
